@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <meta charset="utf-8">
+    <title>SHINNEE WHEEL</title>
+    <link rel="icon" href="images/avatarochka.png" type="image/png" />
+    <style type="text/css">
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Moderustic', sans-serif;
+    background-image: url('images/background2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+	background: radial-gradient(circle at center, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 1) 80%);
+    bottom: 0;
+    z-index: -1;
+}
+
+@font-face {
+    font-family: 'Moderustic';
+    src: url('fonts/Neucha.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neucha';
+    src: url('fonts/Moderustic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@media (max-width: 768px) {
+    #chart {
+        width: 400px;
+        height: 300px;
+    }
+    .spin-button {
+        padding: 10px 20px;
+        font-size: 18px;
+    }
+}
+
+#winner {
+    font-size: 36px;
+    font-family: 'Moderustic', sans-serif;
+    color: rgb(255, 255, 255);
+    margin-bottom: 20px;
+    opacity: 0;
+    transition: opacity 1s ease;
+    margin-left: -30px;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+#chart {
+    position: relative;
+    width: 700px;
+    height: 700px;
+}
+
+        .arrow {
+            position: absolute;
+            top: calc(50% - 33px);
+            left: calc(100% - 60px);
+            font-size: 55px;
+            animation: pointer-pulse 3s infinite;
+            font-weight: bold;
+            color: white;
+            text-shadow: 
+                0 0 5px #000,
+                0 0 10px rgba(255, 255, 255, 0.7),
+                0 0 20px rgba(255, 255, 255, 0.5);
+            z-index: 5;
+            filter: drop-shadow(0 0 2px #000);
+        }
+
+        @keyframes pointer-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Улучшенный стиль обводки колеса */
+        .chartholder circle {
+            stroke: black;
+            stroke-width: 8px;
+            filter: url(#white-glow);
+            animation: wheel-glow-pulse 3s infinite;
+        }
+
+        @keyframes wheel-glow-pulse {
+            0% { filter: url(#white-glow-1); }
+            50% { filter: url(#white-glow-2); }
+            100% { filter: url(#white-glow-1); }
+        }
+.center-gif {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 200px;
+    transform: translate(-50%, -50%) translateX(-15px);
+    border-radius: 50%;
+    pointer-events: none;
+    border: 3px solid black;
+}
+
+@keyframes pointer-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.spin-button {
+    margin-top: 30px;
+    padding: 20px 50px;
+    font-size: 28px;
+    font-weight: bold;
+    font-family: 'Moderustic', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, #f0f0f0, #c0c0c0, #f0f0f0);
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 220px;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.5);
+    position: relative;
+    overflow: hidden;
+    margin-left: -30px;
+    transform: perspective(500px) rotateX(10deg);
+    border: 2px solid #000;
+}
+
+.spin-button:hover {
+    background: linear-gradient(45deg, #ffffff, #a0a0a0, #ffffff);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.8);
+    transform: perspective(500px) rotateX(10deg) scale(1.05);
+}
+
+.spin-button:active {
+    background: linear-gradient(45deg, #d0d0d0, #808080, #d0d0d0);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7), inset 0 0 15px rgba(255, 255, 255, 0.9);
+    transform: perspective(500px) rotateX(10deg) scale(0.98);
+}
+
+.title-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    text-align: center;
+}
+
+.combined-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px 20px;
+    background: linear-gradient(180deg, #333, #111);
+    border: 3px solid #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+}
+
+.casino-title {
+    font-family: 'Moderustic', sans-serif;
+    font-size: 40px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.8);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.promo-text {
+    font-family: 'Moderustic', sans-serif;
+    font-size: 20px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.8);
+    letter-spacing: 1px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+.promo-text2 {
+    font-family: 'Moderustic', sans-serif;
+    font-size: 20px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.8);
+    letter-spacing: 1px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.slice text {
+    font-family: 'Moderustic', sans-serif;
+    fill: black;
+    stroke: white;
+    stroke-width: 1.5px;
+}
+
+.slice path {
+    stroke: black;
+    stroke-width: 2px;
+}
+
+.slice:nth-child(odd) text {
+    fill: black;
+    stroke: white;
+    stroke-width: 1.5px;
+}
+
+.slice:nth-child(even) text {
+    fill: white;
+    stroke: black;
+    stroke-width: 1.5px;
+}
+
+.switch-wheel-button {
+    top: 25px;
+    right: -20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: 'Moderustic', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(45deg, #f0f0f0, #c0c0c0, #f0f0f0);
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 220px;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.5);
+    position: relative;
+    overflow: hidden;
+    margin-left: -30px;
+    transform: perspective(500px) rotateX(10deg);
+    border: 2px solid #000;
+}
+
+ 
+
+.switch-wheel-button:hover {
+    background: linear-gradient(45deg, #ffffff, #a0a0a0, #ffffff);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.8);
+    transform: perspective(500px) rotateX(10deg) scale(1.05);
+}
+
+/* Стили для панели управления длительностью */
+/* Обновленные стили для панели управления длительностью */
+#spinDurationPanel {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Moderustic', sans-serif;
+    border: 2px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2),
+                0 0 0 2px black;
+    max-width: 300px;
+    width: 90%;
+    box-sizing: border-box;
+}
+
+#spinDurationPanel h3 {
+    margin-top: 0;
+    color: white;
+    text-align: center;
+    font-size: 22px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.spin-duration-control {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.spin-duration-control label {
+    min-width: 120px;
+    margin-right: 10px;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.spin-duration-control input,
+.spin-duration-control select {
+    width: 100%;
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    font-family: 'Moderustic', sans-serif;
+    box-sizing: border-box;
+}
+
+#saveDurationSettings {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: linear-gradient(to bottom, #f0f0f0, #c0c0c0);
+    color: black;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Moderustic', sans-serif;
+    transition: all 0.3s ease;
+    border: 1px solid black;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#saveDurationSettings:hover {
+    background: #e0e0e0;
+}
+
+/* Стили для кнопки редактора */
+#adminButton {
+    position: fixed; 
+    bottom: 650px; 
+    right: 14px; 
+    z-index: 1000; 
+    padding: 10px 25px;
+    background: #333; 
+    color: white; 
+    border: 2.5px solid #fff; 
+    width: 396px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-family: 'Moderustic', sans-serif;
+    font-weight: bold;
+}
+
+#adminButton:hover {
+    background: #555;
+    transform: scale(1.02);
+}
+
+/* Стили для модального окна */
+
+#adminModal {
+    display: none; 
+	font-family: 'Moderustic', sans-serif;
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.8); 
+    z-index: 1001; 
+    color: white; 
+    padding: 20px; 
+    overflow-y: auto;
+}
+
+#adminModal > div {
+    max-width: 800px; 
+    margin: 0 auto; 
+    background: #222; 
+    padding: 20px; 
+    border-radius: 10px; 
+    border: 2px solid #fff;
+}
+
+#adminModal h2 {
+    color: #fff;
+    text-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+#adminModal button {
+    padding: 10px 20px; 
+    background: #fff; 
+    color: black; 
+    font-weight: bold; 
+    border: none; 
+    border-radius: 5px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+#adminModal button:hover {
+    background: #e0e0e0;
+}
+
+/* Круг колеса */
+.container circle {
+    stroke: #fff;
+}
+
+/* Градиент для специальных секторов */
+#special-gradient stop:nth-child(1) {
+    stop-color: #fff;
+    stop-opacity: 1;
+}
+#special-gradient stop:nth-child(2) {
+    stop-color: #aaa;
+    stop-opacity: 1;
+}
+
+  .swal2-title, 
+  .swal2-content, 
+  .swal2-confirm, 
+  .swal2-cancel {
+    font-family: 'Moderustic', cursive, sans-serif !important;
+  }
+</style> 
+</head>
+
+<body>
+
+<div id="winner">Папищек получил: <span id="prize">-</span></div>
+<div style="position: relative; display: inline-block;">
+    <div id="chart"></div>
+    <img src="images/pj pocheshi.gif" class="center-gif" alt="GIF">
+    <div class="arrow">&#9664;</div>
+</div>
+<button class="spin-button" id="spinButton">
+    <span class="btn-text">Прокрутить</span>
+    <span class="btn-glow"></span>
+</button>
+<audio id="winSound" src="sound/win.mp3"></audio>
+<audio id="cancelSound" src="sound/xuy.wav" preload="auto"></audio>
+<audio id="goSound" src="sound/uraaa.mp3" preload="auto"></audio>
+<audio id="spinSound1" src="voice/pj dai 2k.ogg"></audio>
+<audio id="spinSound2" src="voice/podkrutka.mp3"></audio>
+<audio id="spinSound3" src="voice/veseluha prodolzhaetsa.mp3"></audio>
+<audio id="spinSound4" src="voice/zabanil.ogg"></audio>
+<audio id="spinSound5" src="voice/poshel.mp3"></audio>
+<audio id="spinSound6" src="voice/razbanivai.ogg"></audio>
+<audio id="spinSound7" src="voice/gla gla.ogg"></audio>
+<audio id="spinSound8" src="voice/zabany.mp3"></audio>
+<audio id="spinSound9" src="voice/omletik.mp3"></audio>
+<audio id="spinSound10" src="voice/okak.mp3"></audio>
+<audio id="spinSound11" src="voice/shinnee.ogg"></audio>
+<audio id="spinSound12" src="voice/neytik.ogg"></audio>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+
+
+<script type="text/javascript">
+
+    var padding = {top:20, right:40, bottom:0, left:0},
+        w = 700 - padding.left - padding.right,
+        h = 700 - padding.top - padding.bottom,
+        r = Math.min(w, h)/2,
+        rotation = 0,
+        oldrotation = 350,
+        picked = 100000,
+        oldpick = [],
+        color = d3.scale.category20();
+
+    // Настройки длительности крутки
+    var spinSettings = {
+        duration: 8000, // Длительность анимации в мс
+        spins: 5,      // Количество полных оборотов
+        ease: "cubic-out" // Тип анимации
+    };
+
+    // Загружаем сохраненные настройки длительности
+    function loadSpinSettings() {
+        var savedSettings = localStorage.getItem('spinSettings');
+        if (savedSettings) {
+            spinSettings = JSON.parse(savedSettings);
+            // Обновляем значения в форме
+            document.getElementById('spinDuration').value = spinSettings.duration / 1000;
+            document.getElementById('spinCount').value = spinSettings.spins;
+            document.getElementById('spinEase').value = spinSettings.ease;
+        }
+    }
+
+    // Сохраняем настройки длительности
+    function saveSpinSettings() {
+        spinSettings.duration = document.getElementById('spinDuration').value * 1000;
+        spinSettings.spins = parseInt(document.getElementById('spinCount').value);
+        spinSettings.ease = document.getElementById('spinEase').value;
+        
+        localStorage.setItem('spinSettings', JSON.stringify(spinSettings));
+        alert('Настройки длительности сохранены!');
+    }
+
+    // Добавляем функцию расчета размера шрифта здесь
+    function calculateFontSize(chance, minSize = 12, maxSize = 24) {
+        const normalizedChance = chance / 100;
+        const size = minSize + (maxSize - minSize) * Math.sqrt(normalizedChance);
+        return Math.round(size);
+    }
+
+    // Далее идут ваши данные moneyWheelData и dropWheelData...
+
+    // Данные для первого колеса (деньги)
+    var moneyWheelData = [
+            {"label": "1000", "chance": 10, "color": "#000000"},  
+            {"label": "1500", "chance": 25, "color": "#FFFFFF"},  
+            {"label": "2000", "chance": 25, "color": "#000000"},
+			{"label": "2500", "chance": 25, "color": "#FFFFFF"},			
+            {"label": "3000", "chance": 25, "color": "#000000"},
+			{"label": "2000 + 1000", "chance": 10, "color": "#FFFFFF"},			
+            {"label": "1000", "chance": 25, "color": "#000000"},  
+            {"label": "1500", "chance": 25, "color": "#FFFFFF"},
+			{"label": "2000", "chance": 25, "color": "#000000"},  
+            {"label": "2500", "chance": 25, "color": "#FFFFFF"},
+			{"label": "3000", "chance": 25, "color": "#000000"},
+			{"label": "1000", "chance": 10, "color": "#000000"},
+    ];
+    // Данные для второго колеса (дропы)
+    var dropWheelData = [
+        {"label": "ну сюда вообще можно не смотреть", "weight": 0},
+    ];
+
+    var currentWheelData = moneyWheelData;
+    var isMoneyWheel = true;
+
+    var svg = d3.select('#chart')
+        .append("svg")
+        .attr("width", w + padding.left + padding.right + 100)
+        .attr("height", h + padding.top + padding.bottom + 100)
+        .style("overflow", "visible");
+        svg.style("pointer-events", "none");
+
+    var container = svg.append("g")
+        .attr("class", "chartholder")
+        .attr("transform", "translate(" + (w/2 + padding.left) + "," + (h/2 + padding.top) + ")");
+
+    var vis = container.append("g");
+
+    var pie = d3.layout.pie()
+    .sort(null)
+    .value(function(d) { return d.chance; });
+    var arc = d3.svg.arc().outerRadius(r);
+    var defs = svg.append("defs");
+
+    var filter = defs.append("filter")
+        .attr("id", "glow");
+    
+    filter.append("feGaussianBlur")
+        .attr("stdDeviation", "3.5")
+        .attr("result", "coloredBlur");
+
+    var feMerge = filter.append("feMerge");
+    feMerge.append("feMergeNode")
+        .attr("in", "coloredBlur");
+    feMerge.append("feMergeNode")
+        .attr("in", "SourceGraphic");
+
+    container.append("circle")
+    .attr("r", r)
+    .attr("fill", "none")
+    .attr("stroke", "gold")
+    .attr("stroke-width", 8)
+    .attr("filter", "url(#glow)");
+    // Добавляем градиент для специальных секторов
+    defs.append("linearGradient")
+        .attr("id", "special-gradient")
+        .attr("x1", "0%").attr("y1", "0%")
+        .attr("x2", "100%").attr("y2", "100%")
+        .selectAll("stop")
+        .data([
+            {offset: "0%", color: "#FFD700"},
+            {offset: "100%", color: "#FF8C00"}
+        ])
+        .enter().append("stop")
+        .attr("offset", function(d) { return d.offset; })
+        .attr("stop-color", function(d) { return d.color; });
+
+    function drawWheel() {
+        // Очищаем старое колесо
+        vis.selectAll(".slice").remove();
+
+        // Находим максимальный шанс для нормализации
+        const maxChance = d3.max(currentWheelData, d => d.chance);
+
+        var arcs = vis.selectAll("g.slice")
+            .data(pie(currentWheelData))
+            .enter()
+            .append("g")
+            .attr("class", "slice");
+
+        arcs.append("path")
+            .attr("fill", function(d, i) {
+                const item = currentWheelData[i];
+                
+                // Если цвет задан и он валидный
+                if (item.color && /^#[0-9A-F]{6}$/i.test(item.color)) {
+                    return item.color;
+                }
+                
+                // Стандартная цветовая схема
+                return (i % 2 === 0) ? "#8B0000" : "#FFFFFF";
+            })
+            .attr("d", arc)
+            .attr("stroke", "black")
+            .attr("stroke-width", 2);
+
+        arcs.append("text")
+            .attr("transform", function(d){
+                d.innerRadius = 0;
+                d.outerRadius = r;
+                d.angle = (d.startAngle + d.endAngle)/2;
+                return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -10) +")";
+            })
+            .attr("text-anchor", "end")
+            .attr("font-size", function(d, i) {
+                const chance = currentWheelData[i].chance;
+                const minSize = 14;
+                const maxSize = 28;
+                const size = minSize + (maxSize - minSize) * Math.sqrt(chance / maxChance);
+                return Math.round(size) + "px";
+            })
+            .attr("dy", function(d, i) {
+                const chance = currentWheelData[i].chance;
+                return chance > 30 ? "0.35em" : "0.2em";
+            })
+            .attr("stroke-width", function(d, i) {
+                const chance = currentWheelData[i].chance;
+                return chance > 30 ? "2px" : "1px";
+            })
+            .text((d, i) => currentWheelData[i].label);
+    }
+
+    // Инициализация первого колеса
+    drawWheel();
+
+    document.getElementById("spinButton").addEventListener("click", spin);
+
+    document.getElementById("switchWheelButton").addEventListener("click", function() {
+        isMoneyWheel = !isMoneyWheel;
+        currentWheelData = isMoneyWheel ? moneyWheelData : dropWheelData;
+        
+        // Обновляем заголовок
+        document.querySelector(".casino-title").textContent = isMoneyWheel ? "EXTRIM WHEEL" : "САЙТОВЫЙ WHEEL";
+        document.querySelector(".promo-text").textContent = isMoneyWheel ? 
+            "ШАНС ОКУПИТЬСЯ БОЛЬШЕ ЧЕМ НЕ ОКУПИТЬСЯ!" : 
+            "КРУТИ И УЗНАЙ НА КАКОМ САЙТЕ МЫ ТЕБЯ ОТКАЧАЕМ!";
+        
+        // Перерисовываем колесо
+        drawWheel();
+        
+        // Сбрасываем отображение победителя
+        document.getElementById("winner").style.opacity = 0;
+        document.getElementById("prize").textContent = "-";
+    });
+
+    var forceNextSpin = false;
+    var spinCount = 0;
+    
+function spin() {
+    // Отключаем кнопку на время вращения
+    var spinButton = document.getElementById("spinButton");
+    spinButton.disabled = true;
+    
+    // Сбрасываем отображение победителя
+    document.getElementById("winner").style.opacity = 0;
+    
+
+    
+    // Остальной код функции spin() остается без изменений
+    const chanceKey = isMoneyWheel ? 'chance' : 'weight';
+    const totalChance = currentWheelData.reduce((sum, item) => sum + item[chanceKey], 0);
+
+    // 1. Выбор сектора
+    let rand = Math.random() * totalChance;
+    let picked = 0;
+    for (let i = 0; i < currentWheelData.length; i++) {
+        if (rand <= currentWheelData[i][chanceKey]) {
+            picked = i;
+            break;
+        }
+        rand -= currentWheelData[i][chanceKey];
+    }
+
+        // 2. Получаем данные пирога для расчета углов
+        const pieData = pie(currentWheelData);
+        
+        // 3. Находим центральный угол выбранного сектора (в радианах)
+        const sector = pieData[picked];
+        const centerAngle = (sector.startAngle + sector.endAngle) / 2;
+        
+        // 4. Корректируем угол так, чтобы остановка была между текстами
+        // Добавляем смещение в 1/4 сектора для остановки на цвете
+        const sectorSize = sector.endAngle - sector.startAngle;
+        const adjustedAngle = centerAngle - (sectorSize * 0.25);
+        
+        // 5. Конечный угол (учитываем текущее положение и делаем несколько полных оборотов)
+        const spins = spinSettings.spins; // Используем настройки из spinSettings
+        rotation = spins * 2 * Math.PI + (Math.PI/2 - adjustedAngle);
+        
+        // 6. Сохраняем текущее вращение перед анимацией
+        var currentRotation = oldrotation;
+        
+        // 7. Анимация
+        vis.transition()
+            .duration(spinSettings.duration) // Используем настройки из spinSettings
+            .ease(spinSettings.ease) // Используем настройки из spinSettings
+            .attrTween("transform", function() {
+                return function(t) {
+                    // Плавный переход от текущего угла к целевому
+                    var angle = currentRotation + (rotation - currentRotation) * t;
+                    return "rotate(" + (angle * (180/Math.PI)) + ")";
+                };
+            })
+.each("end", function() {
+    oldrotation = rotation % (2 * Math.PI);
+    
+    // Показываем результат
+    const prize = currentWheelData[picked].label;
+    document.getElementById("prize").textContent = prize;
+    document.getElementById("winner").style.opacity = 1;
+    
+    // Проигрываем звук победы
+    var winSound = document.getElementById("winSound");
+    winSound.currentTime = 0; // Перематываем на начало
+    winSound.play();
+    
+    // Включаем кнопку обратно
+    spinButton.disabled = false;
+    
+    // Сбрасываем rotation для следующего вращения
+    rotation = 0;
+});
+    }
+
+    // При загрузке страницы загружаем настройки длительности
+    window.addEventListener('DOMContentLoaded', function() {
+        loadSpinSettings();
+        
+        var savedMoneyData = localStorage.getItem('moneyWheelData');
+        var savedDropData = localStorage.getItem('dropWheelData');
+        
+        if (savedMoneyData) {
+            moneyWheelData = JSON.parse(savedMoneyData);
+            moneyWheelData.forEach(item => {
+                if (!item.color) item.color = null;
+            });
+        }
+        
+        if (savedDropData) {
+            dropWheelData = JSON.parse(savedDropData);
+            dropWheelData.forEach(item => {
+                if (!item.color) item.color = null;
+            });
+        }
+        
+        currentWheelData = isMoneyWheel ? moneyWheelData : dropWheelData;
+        drawWheel();
+    });
+</script>
+
+<!-- Кнопка для открытия редактора -->
+<script>
+    document.getElementById('adminButton').onmouseover = function() {
+        this.style.background = '#555'; /* Цвет при наведении */
+        this.style.transform = 'scale(1.02)'; /* Лёгкое увеличение */
+    };
+    document.getElementById('adminButton').onmouseout = function() {
+        this.style.background = 'rgb(33, 33, 33)';
+        this.style.transform = 'scale(1)';
+    };
+</script>
+<style>
+/* Общие стили для обеих кнопок */
+.spin-button, #adminButton {
+    position: relative;
+    padding: 20px 50px;
+    font-size: 28px;
+    font-weight: bold;
+    font-family: 'Moderustic', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    overflow: hidden;
+    z-index: 1;
+    transition: all 0.4s ease;
+    background: linear-gradient(145deg, #e0e0e0, #ffffff);
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.2),
+        0 0 0 2px #000,
+        0 0 0 4px #fff,
+        0 0 20px rgba(255, 255, 255, 0.7);
+    margin-top: 30px;
+    margin-left: -30px;
+    transform: perspective(500px) rotateX(10deg);
+}
+
+/* Текст кнопок */
+.spin-button .btn-text, #adminButton .btn-text {
+    position: relative;
+    z-index: 2;
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+}
+
+/* Эффект свечения */
+.spin-button .btn-glow, #adminButton .btn-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, 
+        rgba(255,255,255,0.8) 0%, 
+        rgba(255,255,255,0.4) 50%, 
+        transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* Ховер-эффекты */
+.spin-button:hover, #adminButton:hover {
+    transform: perspective(500px) rotateX(10deg) scale(1.05);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.3),
+        0 0 0 2px #000,
+        0 0 0 4px #fff,
+        0 0 30px rgba(255, 255, 255, 0.9);
+}
+
+.spin-button:hover .btn-glow, #adminButton:hover .btn-glow {
+    opacity: 1;
+}
+
+/* Активное состояние */
+.spin-button:active, #adminButton:active {
+    transform: perspective(500px) rotateX(10deg) scale(0.98);
+    background: linear-gradient(145deg, #d0d0d0, #f0f0f0);
+    box-shadow: 
+        0 2px 10px rgba(0, 0, 0, 0.3),
+        0 0 0 2px #000,
+        0 0 0 4px #fff,
+        0 0 15px rgba(255, 255, 255, 0.7);
+}
+
+/* Специфичные стили для кнопки "Редактировать награды" */
+#adminButton {
+    position: fixed;
+    bottom: 350px;
+    right: 23px;
+    padding: 15px 25px;
+    font-size: 18px;
+    width: 290px;
+    background: linear-gradient(145deg, #333, #444);
+    color: #fff;
+    box-shadow: 
+        0 4px 15px rgba(0, 0, 0, 0.3),
+        0 0 0 2px #000,
+        0 0 0 4px #fff,
+        0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+#adminButton .btn-text {
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+
+#adminButton:hover {
+    background: linear-gradient(145deg, #444, #555);
+    box-shadow: 
+        0 8px 25px rgba(0, 0, 0, 0.4),
+        0 0 0 2px #000,
+        0 0 0 4px #fff,
+        0 0 30px rgba(255, 255, 255, 0.7);
+}
+
+#adminButton:active {
+    background: linear-gradient(145deg, #222, #333);
+}
+</style>
+
+
+<!-- Панель управления длительностью крутки -->
+<!-- Обновленная панель управления длительностью -->
+<div id="spinDurationPanel">
+    <h3>Настройки крутки</h3>
+    <div class="spin-duration-control">
+        <label for="spinDuration">Длительность (сек):</label>
+        <input type="number" id="spinDuration" min="1" max="40" step="0.5" value="9">
+    </div>
+    <div class="spin-duration-control">
+        <label for="spinCount">Обороты:</label>
+        <input type="number" id="spinCount" min="5" max="10" value="8">
+    </div>
+    <div class="spin-duration-control">
+        <label for="spinEase">Тип анимации:</label>
+        <select id="spinEase">
+            <option value="cubic-out">Плавное замедление</option>
+            <option value="cubic-in">Плавное ускорение</option>
+            <option value="cubic-in-out" selected>Плавное ускорение и замедление</option>
+            <option value="elastic">Эластичная</option>
+        </select>
+    </div>
+    <button id="saveDurationSettings" onclick="saveSpinSettings()">Сохранить</button>
+</div>
+
+<!-- Обновленная кнопка админа -->
+<button id="adminButton">
+    <span class="btn-text">Редактировать награды</span>
+    <span class="btn-glow"></span>
+</button>
+
+<!-- Обновленное модальное окно -->
+<div id="adminModal" style="display: none; font-family: 'Moderustic', cursive, sans-serif;">
+    <div>
+        <h4 style="font-family: inherit;">Редактор наград</h4>
+        
+        <div style="margin-bottom: 20px; background: rgba(30,30,30,0.7); padding: 15px; border-radius: 8px; border-left: 3px solid #fff;">
+            <h3 style="color: #fff; margin-top: 0; font-size: 16px; font-family: inherit;">Колесо прокачек</h3>
+            <div id="moneyWheelEditor"></div>
+            <button onclick="addMoneyItem()" style="margin-top: 10px; padding: 8px 12px; font-size: 14px; font-family: inherit;">
+                + Добавить ячейку
+            </button>
+        </div>
+        
+        <div style="margin-bottom: 20px; background: rgba(30,30,30,0.7); padding: 15px; border-radius: 8px; border-left: 3px solid #fff;">
+            <h3 style="color: #fff; margin-top: 0; font-size: 16px; font-family: inherit;">Да, Нейтик с помощью Мануэля соизволил изменить и сделать нормальные шансы</h3>
+            <div id="dropWheelEditor"></div>
+        </div>
+        
+        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+            <button onclick="saveWheelData()" style="padding: 10px 20px; font-size: 14px; font-family: inherit;">
+                Сохранить
+            </button>
+            
+            <button onclick="closeAdminModal()" style="padding: 10px 20px; font-size: 14px; font-family: inherit;">
+                Закрыть
+            </button>
+            
+            <button onclick="resetToDefault()" style="padding: 10px 20px; font-size: 14px; font-family: inherit;">
+                Сбросить к стандарту
+            </button>
+            <button onclick="Podkrutka()" style="cursor: pointer; padding: 10px 20px; font-size: 14px; background: 
+            linear-gradient(to bottom, rgb(255, 255, 255), rgb(255, 255, 255));color: rgb(14, 13, 13); margin-left: 10px; left: 25px;border: none;border-radius: 5px;transition: all 0.3s ease; font-family: inherit;">Подкрутка</button>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Стили только для панели "Настройки крутки" */
+#spinDurationPanel {
+    bottom: 15px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    font-family: 'Moderustic', sans-serif;
+    border: 2px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.2),
+                0 0 0 2px black;
+}
+
+#spinDurationPanel h3 {
+    margin-top: 0;
+    color: white;
+    text-align: center;
+    font-size: 22px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    padding-bottom: 0px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.spin-duration-control {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.spin-duration-control label {
+    min-width: 120px;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.spin-duration-control input,
+.spin-duration-control select {
+    width: 100%;
+    padding: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    font-family: 'Moderustic', sans-serif;
+}
+
+.spin-duration-control input:focus,
+.spin-duration-control select:focus {
+    outline: none;
+    border-color: white;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+#saveDurationSettings {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: linear-gradient(to bottom, #f0f0f0, #c0c0c0);
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Moderustic', sans-serif;
+    transition: all 0.3s ease;
+    border: 1px solid black;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+#saveDurationSettings:hover {
+    background: linear-gradient(to bottom, #ffffff, #d0d0d0);
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+}
+
+#saveDurationSettings:active {
+    background: linear-gradient(to bottom, #e0e0e0, #b0b0b0);
+}
+</style>
+
+
+<script>
+
+// Функции для работы с админ-панелью
+document.getElementById('adminButton').addEventListener('click', function() {
+    loadWheelData();
+    document.getElementById('adminModal').style.display = 'block';
+
+});
+
+function closeAdminModal() {
+    document.getElementById('adminModal').style.display = 'none';
+}
+
+function loadWheelData() {
+    // Загружаем сохраненные данные или используем стандартные
+    var savedMoneyData = localStorage.getItem('moneyWheelData');
+    var savedDropData = localStorage.getItem('dropWheelData');
+    
+    if (savedMoneyData) moneyWheelData = JSON.parse(savedMoneyData);
+    if (savedDropData) dropWheelData = JSON.parse(savedDropData);
+    
+    renderEditors();
+}
+
+function renderEditors() {
+    renderWheelEditor('moneyWheelEditor', moneyWheelData, 'chance');
+    renderWheelEditor('dropWheelEditor', dropWheelData, 'weight');
+}
+
+function renderWheelEditor(containerId, data, chanceKey) {
+    var container = document.getElementById(containerId);
+    container.innerHTML = '';
+    
+    data.forEach(function(item, index) {
+        var itemDiv = document.createElement('div');
+        itemDiv.style.margin = '10px 0';
+        itemDiv.style.padding = '10px';
+        itemDiv.style.background = '#333';
+        itemDiv.style.borderRadius = '5px';
+        
+        itemDiv.innerHTML = `
+            <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 5px;">
+                <input type="text" value="${item.label}" onchange="updateWheelItem(${index}, '${containerId}', this.value, 'label')" style="flex: 2; padding: 5px; background: #444; color: white; border: 1px solid gold;">
+                <input type="number" value="${item[chanceKey]}" onchange="updateWheelItem(${index}, '${containerId}', this.value, '${chanceKey}')" style="flex: 1; padding: 5px; background: #444; color: white; border: 1px solid gold;">
+                <button onclick="removeWheelItem(${index}, '${containerId}')" style="padding: 5px 10px; background: #800; color: white; font-family: 'Moderustic';">Удалить</button>
+            </div>
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <span>Цвет:</span>
+                <input type="color" value="${item.color || ((index % 2 === 0) ? '#8B0000' : '#FFFFFF')}" onchange="updateWheelItem(${index}, '${containerId}', this.value, 'color')" style="width: 50px; height: 30px;">
+                <button onclick="updateWheelItem(${index}, '${containerId}', null, 'color')" style="padding: 2px 5px; background: #444; color: white; font-family: 'Moderustic';">По умолчанию</button>
+                
+            </div>
+        
+        `;
+        
+        container.appendChild(itemDiv);
+    });
+}
+
+function updateWheelItem(index, containerId, value, key) {
+    var data = containerId === 'moneyWheelEditor' ? moneyWheelData : dropWheelData;
+    
+    if (key === 'color') {
+        // Если нажали кнопку "По умолчанию" (value === null)
+        if (value === null) {
+            delete data[index].color;
+        } else {
+            data[index][key] = value;
+        }
+    } else {
+        data[index][key] = key === 'label' ? value : parseFloat(value);
+    }
+    
+    // Перерисовываем редактор, чтобы изменения сразу отобразились
+    renderEditors();
+}
+
+function removeWheelItem(index, containerId) {
+    var data = containerId === 'moneyWheelEditor' ? moneyWheelData : dropWheelData;
+    data.splice(index, 1);
+    renderEditors();
+}
+
+function addMoneyItem() {
+    moneyWheelData.push({label: "Новый приз", chance: 10});
+    renderEditors();
+}
+
+function addDropItem() {
+    dropWheelData.push({label: "Новый дроп", weight: 10});
+    renderEditors();
+}
+
+function saveWheelData() {
+    // Сохраняем данные с цветами
+    localStorage.setItem('moneyWheelData', JSON.stringify(moneyWheelData.map(item => {
+        return {
+            label: item.label,
+            chance: item.chance,
+            color: item.color || null
+        };
+    })));
+    
+    localStorage.setItem('dropWheelData', JSON.stringify(dropWheelData.map(item => {
+        return {
+            label: item.label,
+            weight: item.weight,
+            color: item.color || null
+        };
+    })));
+    
+    // Перерисовываем текущее колесо
+    currentWheelData = isMoneyWheel ? moneyWheelData : dropWheelData;
+    drawWheel();
+    
+    alert('Настройки сохранены!');
+    closeAdminModal();
+}
+
+function resetToDefault() {
+    if (confirm('Вы уверены, что хотите сбросить настройки к стандартным?')) {
+        // Стандартные данные с цветами
+        moneyWheelData = [
+            {"label": "1000", "chance": 30, "color": "#000000"},  
+            {"label": "1500", "chance": 25, "color": "#FFFFFF"},  
+            {"label": "2000", "chance": 20, "color": "#000000"},
+			{"label": "2500", "chance": 15, "color": "#FFFFFF"},			
+            {"label": "3000", "chance": 10, "color": "#000000"},
+			{"label": "2000 + 1000", "chance": 18, "color": "#FFFFFF"},			
+            {"label": "1000", "chance": 30, "color": "#000000"},  
+            {"label": "1500", "chance": 25, "color": "#FFFFFF"},
+			{"label": "2000", "chance": 20, "color": "#000000"},  
+            {"label": "2500", "chance": 15, "color": "#FFFFFF"},
+			{"label": "3000", "chance": 10, "color": "#000000"},
+			{"label": "1000", "chance": 30, "color": "#FFFFFF"},
+        ];
+        
+        dropWheelData = [];
+        
+        // Сохраняем стандартные настройки
+        localStorage.setItem('moneyWheelData', JSON.stringify(moneyWheelData));
+        localStorage.setItem('dropWheelData', JSON.stringify(dropWheelData));
+        
+        renderEditors();
+        drawWheel();
+    }
+}
+function Podkrutka() {
+    const isSuccess = Math.random() < 0.5;
+
+    if (isSuccess) {
+        Swal.fire({
+            title: 'Нифига себе, это заход?',
+            html: 'Вы подкрутили папищеку желаемые шансы на опук<br><span style="color: #888;">(жаль не как на КБ)</span>',
+            icon: 'success',
+            confirmButtonText: 'Погнали!',
+            showCancelButton: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const goSound = document.getElementById('goSound');
+                goSound.currentTime = 0;
+                goSound.play();
+            }
+        });
+
+        Nothing = [];
+    } else {
+        Swal.fire({
+            title: 'Эх, попробуйте ещё раз..',
+            html: 'Шанс окупиться был больше чем не окупиться..<br>Придётся слить данного подписчика и оставить без вывода :(',
+            icon: 'error',
+            confirmButtonText: 'Лан похер додеп',
+            cancelButtonText: 'Блин бро отменись пж',
+            showCancelButton: true,
+            customClass: {
+                htmlContainer: 'swal-custom-text'
+            }
+        }).then((result) => {
+            if (result.dismiss === Swal.DismissReason.cancel) {
+                const sound = document.getElementById('cancelSound');
+                sound.play();
+            }
+        });
+    }
+}
+
+// При загрузке страницы проверяем сохраненные данные
+window.addEventListener('DOMContentLoaded', function() {
+    var savedMoneyData = localStorage.getItem('moneyWheelData');
+    var savedDropData = localStorage.getItem('dropWheelData');
+    
+    if (savedMoneyData) {
+        moneyWheelData = JSON.parse(savedMoneyData);
+        // Убедимся, что у всех элементов есть свойство color
+        moneyWheelData.forEach(item => {
+            if (!item.color) item.color = null;
+        });
+    }
+    
+    if (savedDropData) {
+        dropWheelData = JSON.parse(savedDropData);
+        dropWheelData.forEach(item => {
+            if (!item.color) item.color = null;
+        });
+    }
+    
+    // Перерисовываем текущее колесо
+    currentWheelData = isMoneyWheel ? moneyWheelData : dropWheelData;
+    drawWheel();
+});
+winSound.volume = 0.2; // 20% громкости
+
+</script>
+
+<script>
+// Создаем SVG фильтры для свечения обводки
+var defs = d3.select("defs");
+
+// Удаляем старые фильтры если есть
+defs.select("#white-glow").remove();
+defs.select("#white-glow-1").remove();
+defs.select("#white-glow-2").remove();
+
+// Основной фильтр свечения (средняя интенсивность)
+var whiteGlow1 = defs.append("filter")
+    .attr("id", "white-glow-1")
+    .attr("height", "130%")
+    .attr("width", "130%");
+
+whiteGlow1.append("feGaussianBlur")
+    .attr("stdDeviation", "3")
+    .attr("result", "coloredBlur");
+
+var feMerge1 = whiteGlow1.append("feMerge");
+feMerge1.append("feMergeNode")
+    .attr("in", "coloredBlur");
+feMerge1.append("feMergeNode")
+    .attr("in", "SourceGraphic");
+
+// Усиленный фильтр свечения (пик анимации)
+var whiteGlow2 = defs.append("filter")
+    .attr("id", "white-glow-2")
+    .attr("height", "150%")
+    .attr("width", "150%");
+
+whiteGlow2.append("feGaussianBlur")
+    .attr("stdDeviation", "5")
+    .attr("result", "coloredBlur");
+
+var feMerge2 = whiteGlow2.append("feMerge");
+feMerge2.append("feMergeNode")
+    .attr("in", "coloredBlur");
+feMerge2.append("feMergeNode")
+    .attr("in", "SourceGraphic");
+
+// Фильтр по умолчанию
+var whiteGlow = defs.append("filter")
+    .attr("id", "white-glow")
+    .attr("height", "130%")
+    .attr("width", "130%");
+
+whiteGlow.append("feGaussianBlur")
+    .attr("stdDeviation", "3")
+    .attr("result", "coloredBlur");
+
+var feMerge = whiteGlow.append("feMerge");
+feMerge.append("feMergeNode")
+    .attr("in", "coloredBlur");
+feMerge.append("feMergeNode")
+    .attr("in", "SourceGraphic");
+</script>
+
+</html>
